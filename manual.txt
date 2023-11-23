@@ -1,0 +1,25 @@
+Re-ToDo2.1 Version - 2.1.1
+_ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+A Simple ToDo Program written in C. And initializes Apache Cassandra database to store the information and data.
++ Currently the program uses txt/JSON files to store, retrive and log the data. The initialization of these files may be handled by the C Program itself.
+Or may be for simplicity and easier accesibility the program will use a bash script file to generate the data and log files.
+* It's still under consideration either to use the script file to install/Compile and set-up the program or to run the script from the C Program to set-up files.
+* This program will use script file to compile and run this program from the terminal.
+
+#   USER GUIDE AND DOCUMENTATION/MANUALS
+    ./[PROGRAM NAME][FLAGS AS ARGUMENTS]
+    //Change the program to however the user desire in the install.sh.
+    
+    -h  -   [arg] help/Displays MANUALS
+    -l  -   [arg] lists logs - Located in the data/ from the current directory.
+    -n  -   [arg] Create New ToDo.
+    -q  -   [arg] Query pending ToDos.
+    -c  -   [arg][ID] Complete a ToDo with a ID as another argument to mark the ToDo Completed.
+
+#   NOTES
+    * The data files will be stored in the current directory or in the users home directory or in the current files directory in data/.
+    * If you change the files location in the install.sh file, make sure to also change the file location the in C Program code and then re-complie and C Program.
+        Or run the script again.
+    * You can set the environment variables or use the program from the programs directory.
+    * This is just for the fun project for productivity and managing the simple tasks and learning C Program.
