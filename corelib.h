@@ -4,18 +4,6 @@
 
 #define CURRENT_VERSION "2.1.1"
 
-//const char * dateAndTime() {
-    // time_t t = time(NULL);
-    // struct tm tm = *localtime(&t);
-    // char * dateAndTime;
-    // sprintf(dateAndTime, "%d-%02d-%02d %02d:%02d:%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-    // return dateAndTime;
-    // time_t t;
-    // time(&t);
-    // printf("%s\n", ctime(&t));
-    // return ctime(&t);
-//}
-
 void greeting() {
     time_t t;
     time(&t);
@@ -181,18 +169,6 @@ void COMPLETE_ONE(char td_id[]) {
 int callback(void *, int, char **, char **);
 
 int QUERY_ONE(char td_id[]) {
-    //int callback(void *, int, char **, char **);
-
-    //int callback(void *NotUsed, int argc, char **argv, char **azColName) {
-    //NotUsed = 0;
-
-    //for(int i = 0; i < argc; i++) {
-    //    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    //}
-    //printf("\n");
-
-    //return 0;
-//}
 
     sqlite3 *db;
     char *err_msg = 0;
