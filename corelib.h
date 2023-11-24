@@ -173,7 +173,7 @@ int CREATE_SUBTODO(char td_id[], char td_title[]) {
         return 1;
     }
 
-    char *sql = sqlite3_mprintf("INSERT INTO Todos(Title, Date_Added, Sub_Id, Status, Date_Completed) Values ('%q', datetime('now'), '%d', 0, datetime('now'))", td_title, td_id);
+    char *sql = sqlite3_mprintf("INSERT INTO Todos(Title, Date_Added, Sub_Id, Status, Date_Completed) Values ('%q', datetime('now'), '%q', 0, NULL)", td_title, td_id);
 
     rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
 
