@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sqlite3.h>
 #include <time.h>
+#include <string.h>
 
 #define CURRENT_VERSION "2.1.1"
 
@@ -219,7 +220,7 @@ int CREATE_SUBTODO(char td_id[], char td_title[]) {
     return 0;
 }
 
-void COMPLETE_ONE(int td_id) {
+int COMPLETE_ONE(int td_id) {
     char recent[] = get_recent();
 
     sqlite3 *db;
