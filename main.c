@@ -30,7 +30,11 @@ int main(int argc, char *argv[]) {
             fclose(fp);
         } else if (strcmp(argv[1], "-l")==0) {
             // List all ToDos this is supposed to List the logs.
-            LIST_ALL(argv[2]);
+            if (argc == 2) {
+                LIST_ALL(get_recent);
+            } else {
+                LIST_ALL(argv[2]);
+            }
 
         } else if (strcmp(argv[1], "-n")==0) {
 

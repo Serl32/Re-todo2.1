@@ -34,7 +34,7 @@ int CREATE_DB(char name[]) {
         return 1;
     }
 
-    char *sql = "CREATE TABLE Todos(Id INTEGER PRIMARY KEY, Title TEXT, Date_Added TEXT, Status INTEGER, Date_Completed TEXT);";
+    char *sql = "CREATE TABLE Todos(Id INTEGER PRIMARY KEY, Title TEXT, Date_Added TEXT, Sub_Id Integer, Status INTEGER, Date_Completed TEXT);";
 
     rc = sqlite3_prepare_v2(db, "SELECT SQLITE_VERSION()", -1, &res, 0);
 
@@ -65,13 +65,35 @@ int CREATE_DB(char name[]) {
     return 0;
 }
 
+// Helper function to get the recent database name
+char get_recent() {
+    const int len = 26;
+    char str[len];
+    char recent[len];
+
+    FILE *fp;
+
+    fp = fopen("list.txt", "r");
+
+    if (fp == NULL) {
+        printf("Subsequent list file may be missing. Create one with init or check \"-h\" for more information.\n");
+    } else {
+        while(fgets(str, len, fp) != NULL) {
+            strcpy(recent, str);
+        }
+    }
+    fclose(fp);
+
+    return recent;
+}
+
 //List all unfinished todos
-int LIST_ALL(char num[]) {
+int LIST_ALL(char name[]) {
     sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
 
-    int rc = sqlite3_open(num, &db);
+    int rc = sqlite3_open(name, &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open the database: %s\n.", sqlite3_errmsg(db));
@@ -108,23 +130,7 @@ int LIST_ALL(char num[]) {
 
 //Create New
 int CREATE_NEW(char td_title[]) {
-    FILE *fptr;
-    fptr = fopen("databaselist.txt", "r");
-    //char recent[10];
-    char *recent;
-
-    char str[26];
-    if (fptr != NULL) {
-        while(fgets(str, 26, fptr)) {
-           // strcpy(recent, str);
-           recent = str;
-           printf("%s\n", recent);
-        }
-        printf("%s", recent);
-    } else {
-        printf("Can't find the database.\n");
-    }
-    fclose(fptr);
+    char recent[] = get_recent();
 
     sqlite3 *db;
     char *err_msg = 0;
