@@ -208,7 +208,7 @@ int CREATE_SUBTODO(char td_id[], char td_title[]) {
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Faialed to create the table.\n");
         fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlit3_free(err_msg);
+        sqlite3_free(err_msg);
     } else {
         fprintf(stdout, "Table Created successfully.\n");
     }
