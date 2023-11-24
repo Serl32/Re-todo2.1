@@ -293,7 +293,6 @@ int QUERY_ONE(char td_id[]) {
     sqlite3_close(db);
 
     printf("Database List:");
-    datalist_function(0, "");
 
     return 0;
 }

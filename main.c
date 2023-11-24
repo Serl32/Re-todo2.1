@@ -51,7 +51,11 @@ int main(int argc, char *argv[]) {
 
             // Query One ToDo, this is supposed to list all the unfinished ToDos.
             if (argc == 3) {
-                QUERY_ONE(argv[2]);
+                if (strcmp(argv[2], "data")) {
+                    QUERY_ONE(argv[2]);
+                } else if (strcmp(argv[2], "list")) {
+                    datalist_function(0, "");
+                }
             } else {
                 printf("Not enough arguments. Add your database name with your arguments.\n");
             }
