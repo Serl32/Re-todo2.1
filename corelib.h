@@ -17,6 +17,29 @@ void greeting() {
     printf("# Use \"-h\" as the argument for more information and help.\n");
 }
 
+void datalist_function(int num, char name[]) {
+    FILE *f;
+    char str[26];
+    if (num == 1) {
+        f = fopen("list.txt", "w");
+        if (f == NULL) {
+            printf("Cannot open the file. check if the \"list.txt\" file available in the current directory.\n");
+        } else {
+            fprintf(f, "%s\n", name);
+        }
+    } else {
+        f = fopen("list.txt", "r");
+        if (f == NULL) {
+            printf("Cannot open the file. check if the \"list.txt\" file is available in the current directory.\n");
+        } else {
+            while(fgets(str, 26, f) != NULL) {
+                printf("%s\n", str);
+            }
+        }
+    }
+    fclose(f);
+}
+
 int CREATE_DB(char name[]) {
     printf("Creating the database...\n");
     printf("sqlite3 Version: %s\n", sqlite3_libversion());
@@ -62,6 +85,8 @@ int CREATE_DB(char name[]) {
     sqlite3_finalize(res);
     sqlite3_close(db);
 
+    datalist_function(1, name);
+
     return 0;
 }
 
@@ -86,6 +111,8 @@ char get_recent() {
 
     return recent;
 }
+
+int callback(void *, int, char **, char **);
 
 //List all unfinished todos
 int LIST_ALL(char name[]) {
@@ -235,8 +262,6 @@ void COMPLETE_ONE(int td_id) {
     return 0;
 }
 
-int callback(void *, int, char **, char **);
-
 int QUERY_ONE(char td_id[]) {
 
     sqlite3 *db;
@@ -266,6 +291,9 @@ int QUERY_ONE(char td_id[]) {
     }
 
     sqlite3_close(db);
+
+    printf("Database List:");
+    datalist_function(0, "");
 
     return 0;
 }
