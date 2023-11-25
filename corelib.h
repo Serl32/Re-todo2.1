@@ -26,7 +26,7 @@ int CREATE_DB() {
     sqlite3_stmt *res;
     char *err_msg = 0;
 
-    int rc = sqlite3_open("todo", &db);
+    int rc = sqlite3_open("todos", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -76,7 +76,7 @@ int LIST_ALL() {
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open("todo", &db);
+    int rc = sqlite3_open("todos", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open the database: %s\n.", sqlite3_errmsg(db));
@@ -111,7 +111,7 @@ int CREATE_NEW(char td_title[]) {
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open("todo", &db);
+    int rc = sqlite3_open("todos", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -145,7 +145,7 @@ int CREATE_SUBTODO(int td_id, char td_title[]) {
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open("todo", &db);
+    int rc = sqlite3_open("todos", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -179,7 +179,7 @@ int COMPLETE_ONE(int td_id) {
     char *err_msg = 0;
     sqlite3_stmt *res;
 
-    int rc = sqlite3_open("todo", &db);
+    int rc = sqlite3_open("todos", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -220,7 +220,7 @@ int QUERY_ONE(int td_id) {
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open("todo", &db);
+    int rc = sqlite3_open("todos", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Failed to open database: %s\n", sqlite3_errmsg(db));
