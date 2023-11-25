@@ -144,6 +144,7 @@ int CREATE_SUBTODO(int td_id, char td_title[]) {
 
     sqlite3 *db;
     char *err_msg = 0;
+    sqlite3_stmt *res;
 
     int rc = sqlite3_open("todos", &db);
 
@@ -154,16 +155,31 @@ int CREATE_SUBTODO(int td_id, char td_title[]) {
         return 1;
     }
 
-    char *sql = sqlite3_mprintf("INSERT INTO Todos(Title, Date_Added, Sub_Id, Status, Date_Completed) Values ('%q', datetime('now'), '%q', 0, NULL)", td_title, td_id);
+    char *sql = "INSERT INTO Todos(Title, Date_Added, Sub_Id, Status, Date_Completed) Values (@title, datetime('now'), @id, 0, DateTime('now'))";
 
-    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+    rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
 
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Faialed to create the table.\n");
         fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
     } else {
+        int idx = sqlite3_bind_parameter_index(res, "@title");
+        sqlite3_bind_text(res, idx, td_title, strlen(td_title), SQLITE_TRANSIENT);
+        idx = sqlite3_bind_parameter_index(res, "@id");
+        sqlite3_bind_int(res, idx, td_id);
         fprintf(stdout, "Table Created successfully.\n");
+    }
+
+    rc = sqlite3_step(res);
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+
+        return -1;
     }
 
     int last_int_id = sqlite3_last_insert_rowid(db);
