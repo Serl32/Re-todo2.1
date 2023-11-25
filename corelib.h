@@ -18,30 +18,7 @@ void greeting() {
     printf("# Use \"-h\" as the argument for more information and help.\n");
 }
 
-void datalist_function(int num, char name[]) {
-    FILE *f;
-    char str[26];
-    if (num == 1) {
-        f = fopen("list.txt", "w");
-        if (f == NULL) {
-            printf("Cannot open the file. check if the \"list.txt\" file available in the current directory.\n");
-        } else {
-            fprintf(f, "%s\n", name);
-        }
-    } else {
-        f = fopen("list.txt", "r");
-        if (f == NULL) {
-            printf("Cannot open the file. check if the \"list.txt\" file is available in the current directory.\n");
-        } else {
-            while(fgets(str, 26, f) != NULL) {
-                printf("%s\n", str);
-            }
-        }
-    }
-    fclose(f);
-}
-
-int CREATE_DB(char name[]) {
+int CREATE_DB() {
     printf("Creating the database...\n");
     printf("sqlite3 Version: %s\n", sqlite3_libversion());
 
@@ -49,7 +26,7 @@ int CREATE_DB(char name[]) {
     sqlite3_stmt *res;
     char *err_msg = 0;
 
-    int rc = sqlite3_open(name, &db);
+    int rc = sqlite3_open("todo", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -86,42 +63,20 @@ int CREATE_DB(char name[]) {
     sqlite3_finalize(res);
     sqlite3_close(db);
 
-    datalist_function(1, name);
-
     return 0;
 }
 
 // Helper function to get the recent database name
-char get_recent() {
-    const int len = 26;
-    char str[len];
-    char recent[len];
-
-    FILE *fp;
-
-    fp = fopen("list.txt", "r");
-
-    if (fp == NULL) {
-        printf("Subsequent list file may be missing. Create one with init or check \"-h\" for more information.\n");
-    } else {
-        while(fgets(str, len, fp) != NULL) {
-            strcpy(recent, str);
-        }
-    }
-    fclose(fp);
-
-    return recent;
-}
 
 int callback(void *, int, char **, char **);
 
 //List all unfinished todos
-int LIST_ALL(char name[]) {
+int LIST_ALL() {
 
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open(name, &db);
+    int rc = sqlite3_open("todo", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open the database: %s\n.", sqlite3_errmsg(db));
@@ -152,12 +107,11 @@ int LIST_ALL(char name[]) {
 
 //Create New
 int CREATE_NEW(char td_title[]) {
-    char recent[] = get_recent();
 
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open(recent, &db);
+    int rc = sqlite3_open("todo", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -186,13 +140,12 @@ int CREATE_NEW(char td_title[]) {
 }
 
 //Create Sub
-int CREATE_SUBTODO(char td_id[], char td_title[]) {
-    char recent[] = get_recent();
+int CREATE_SUBTODO(int td_id, char td_title[]) {
 
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open(recent, &db);
+    int rc = sqlite3_open("todo", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -221,13 +174,12 @@ int CREATE_SUBTODO(char td_id[], char td_title[]) {
 }
 
 int COMPLETE_ONE(int td_id) {
-    char recent[] = get_recent();
 
     sqlite3 *db;
     char *err_msg = 0;
     sqlite3_stmt *res;
 
-    int rc = sqlite3_open(recent, &db);
+    int rc = sqlite3_open("todo", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -263,12 +215,12 @@ int COMPLETE_ONE(int td_id) {
     return 0;
 }
 
-int QUERY_ONE(char td_id[]) {
+int QUERY_ONE(int td_id) {
 
     sqlite3 *db;
     char *err_msg = 0;
 
-    int rc = sqlite3_open(td_id, &db);
+    int rc = sqlite3_open("todo", &db);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Failed to open database: %s\n", sqlite3_errmsg(db));
@@ -292,8 +244,6 @@ int QUERY_ONE(char td_id[]) {
     }
 
     sqlite3_close(db);
-
-    printf("Database List:");
 
     return 0;
 }
