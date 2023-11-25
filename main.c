@@ -2,6 +2,7 @@
 #include <time.h>
 #include "corelib.h"
 #include <string.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[]) {
 
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]) {
             if (argc == 3) {
                 CREATE_NEW(argv[2]);
             } else if (argc == 4) {
-                int num = atoi(*argv[2]);
+                int num = atoi(argv[2]);
                 CREATE_SUBTODO(num, argv[3]);
             } else {
                 printf("Not enough arguments, Add title \"Your title\" as argument with \"-n\"\n");
@@ -48,7 +49,7 @@ int main(int argc, char *argv[]) {
 
             // Query One ToDo, this is supposed to list all the unfinished ToDos.
             if (argc == 3) {
-                int num = atoi(*argv[2]);
+                int num = atoi(argv[2]);
                 QUERY_ONE(num);
             } else {
                 printf("Not enough arguments. Add your database name with your arguments.\n");
@@ -58,7 +59,7 @@ int main(int argc, char *argv[]) {
 
             // Set one ToDo Completed
             if (argc == 3) {
-                int num = atoi(*argv[2]);
+                int num = atoi(argv[2]);
                 COMPLETE_ONE(num);
             } else {
                 printf("Not enough arguments. Add your ToDo Id as arguments.\n");
