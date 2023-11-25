@@ -30,11 +30,7 @@ int main(int argc, char *argv[]) {
             fclose(fp);
         } else if (strcmp(argv[1], "-l")==0) {
             // List all ToDos this is supposed to List the logs.
-            if (argc == 2) {
-                LIST_ALL(get_recent);
-            } else {
-                LIST_ALL(argv[2]);
-            }
+            LIST_ALL();
 
         } else if (strcmp(argv[1], "-n")==0) {
 
@@ -42,7 +38,8 @@ int main(int argc, char *argv[]) {
             if (argc == 3) {
                 CREATE_NEW(argv[2]);
             } else if (argc == 4) {
-                CREATE_SUBTODO(argv[2], argv[3]);
+                int num = atoi(*argv[2]);
+                CREATE_SUBTODO(num, argv[3]);
             } else {
                 printf("Not enough arguments, Add title \"Your title\" as argument with \"-n\"\n");
             }
@@ -51,11 +48,8 @@ int main(int argc, char *argv[]) {
 
             // Query One ToDo, this is supposed to list all the unfinished ToDos.
             if (argc == 3) {
-                if (strcmp(argv[2], "data")) {
-                    QUERY_ONE(argv[2]);
-                } else if (strcmp(argv[2], "list")) {
-                    datalist_function(0, "");
-                }
+                int num = atoi(*argv[2]);
+                QUERY_ONE(num);
             } else {
                 printf("Not enough arguments. Add your database name with your arguments.\n");
             }
@@ -64,7 +58,8 @@ int main(int argc, char *argv[]) {
 
             // Set one ToDo Completed
             if (argc == 3) {
-                COMPLETE_ONE(argv[2]);
+                int num = atoi(*argv[2]);
+                COMPLETE_ONE(num);
             } else {
                 printf("Not enough arguments. Add your ToDo Id as arguments.\n");
             }
@@ -72,8 +67,8 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(argv[1], "init")==0) {
 
             // Create New Database
-            if (argc == 3) {
-                CREATE_DB(argv[2]);
+            if (argc == 2) {
+                CREATE_DB();
             } else {
                 printf("Not enough arguments. Add your database name with your current argument.\n");
             }
